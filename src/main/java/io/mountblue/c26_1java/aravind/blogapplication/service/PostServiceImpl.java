@@ -44,11 +44,11 @@ public class PostServiceImpl implements PostService{
     public void save(Post post) {
         LocalDateTime now = LocalDateTime.now();
 
-        post.setCreatedAt(now);
+        if(post.getCreatedAt() == null) post.setCreatedAt(now);
+        if(post.getPublishedAt() == null) post.setPublishedAt(now);
         post.setUpdatedAt(now);
-        post.setPublishedAt(now);
         post.setPublished(true);
-        post.setExcerpt(StringUtils.abbreviate(post.getTitle(), 255));
+        post.setExcerpt(StringUtils.abbreviate(post.getContent(), 255));
 
         postRepository.save(post);
     }

@@ -9,10 +9,7 @@
 <main>
     <h1>New/Edit Post</h1>
     <hr>
-    <form action="#" th:action="@{/blog-application/save}" th:object="${post}" method="POST">
-
-        <!-- Add hidden form fields to handle update -->
-        <input type="hidden" th:field="*{id}" />
+    <form action="#" th:action="@{/blog-application/savepost}" th:object="${post}" method="POST">
 
         <input type="text" th:field="*{title}" placeholder="Title">
 
@@ -22,12 +19,15 @@
 
         <textarea type="text" th:field="*{content}" placeholder="Content" />
 
+        <!-- Add hidden form field to handle DB updates -->
+        <input type="hidden" th:field="*{id}" />
+
         <button type="submit">Publish</button>
 
     </form>
 
     <hr>
-    <a th:href="@{/blog-application/}">Back to Employees List</a>
+    <a th:href="@{/blog-application/}">Back to Posts list</a>
 </main>
 </body>
 </html>

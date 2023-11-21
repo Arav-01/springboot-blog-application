@@ -28,6 +28,15 @@ public class PostController {
         return "posts-list";
     }
 
+    @GetMapping("/showpost")
+    public String showPost(@RequestParam Long id, Model model) {
+        Post post = postService.findById(id);
+
+        model.addAttribute("post", post);
+
+        return "view-post";
+    }
+
     @GetMapping("/newpost")
     public String createPost(Model model) {
         Post post = new Post();
@@ -37,20 +46,26 @@ public class PostController {
         return "post-form";
     }
 
+    @GetMapping("editpost")
+    public String editPost(@RequestParam Long id, Model model) {
+        Post post = postService.findById(id);
 
-    @PostMapping("/save")
+        model.addAttribute("post", post);
+
+        return "post-form";
+    }
+
+    @PostMapping("/savepost")
     public String savePost(@ModelAttribute("post") Post post) {
         postService.save(post);
 
         return "redirect:/blog-application/";
     }
 
-    @GetMapping("/showpost")
-    public String showPost(@RequestParam Long id, Model model) {
-        Post post = postService.findById(id);
+    @GetMapping("/deletepost")
+    public String deletePost(@RequestParam Long id) {
+        postService.deleteById(id);
 
-        model.addAttribute("post", post);
-
-        return "view-post";
+        return "redirect:/blog-application/";
     }
 }

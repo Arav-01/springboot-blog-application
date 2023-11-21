@@ -15,6 +15,8 @@
     <p th:text="${post.author} + ', ' + ${post.createdAt.toLocalDate()}" />
     <p th:text="${post.content}" />
   </article>
+  <a th:href="@{/blog-application/editpost(id=${post.id})}">Edit post</a>
+  <a th:href="@{/blog-application/deletepost(id=${post.id})}">Delete post</a>
 </main>
 </body>
 </html>
