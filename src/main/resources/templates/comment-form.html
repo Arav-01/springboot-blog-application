@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>New Comment</title>
+</head>
+<body>
+<main>
+    <form action="#" th:action="@{/blog-application/savecomment}" th:object="${commentObj}" method="POST">
+        <input type="text" th:field="*{name}" placeholder="Name" />
+
+        <input type="text" th:field="*{email}" placeholder="Email" />
+
+        <textarea th:field="*{comment}" placeholder="Comment" />
+
+        <!-- Add hidden form field to handle DB updates -->
+        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{postId}" />
+
+        <button type="submit">Comment</button>
+    </form>
+</main>
+</body>
+</html>

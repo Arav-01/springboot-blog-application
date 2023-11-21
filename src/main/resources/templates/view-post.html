@@ -17,6 +17,21 @@
   </article>
   <a th:href="@{/blog-application/editpost(id=${post.id})}">Edit post</a>
   <a th:href="@{/blog-application/deletepost(id=${post.id})}">Delete post</a>
+  <br>
+  <a th:href="@{/blog-application/newcomment(postId=${post.id})}">Add Comment</a>
+  <div th:each="comment : ${comments}" class="comments-list">
+    <div class="comment-container" style="border: 1px solid">
+      <h3 th:text="${comment.name}" />
+      <p th:text="${comment.email}" />
+      <p th:text="${comment.comment}" />
+      <a th:href="@{/blog-application/editcomment(id=${comment.id})}">
+        Update
+      </a>
+      <a th:href="@{/blog-application/deletecomment(id=${comment.id}, postId=${post.id})}">
+        Delete
+      </a>
+    </div>
+  </div>
 </main>
 </body>
 </html>

@@ -9,7 +9,7 @@ public interface PostService {
 
     Post findById(Long id);
 
-    void save(Post theEmployee);
+    void save(Post post);
 
     void deleteById(Long id);
 }

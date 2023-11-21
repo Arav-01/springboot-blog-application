@@ -1,6 +1,8 @@
 package io.mountblue.c26_1java.aravind.blogapplication.controller;
 
+import io.mountblue.c26_1java.aravind.blogapplication.model.Comment;
 import io.mountblue.c26_1java.aravind.blogapplication.model.Post;
+import io.mountblue.c26_1java.aravind.blogapplication.service.CommentService;
 import io.mountblue.c26_1java.aravind.blogapplication.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,10 +15,12 @@ import java.util.List;
 @RequestMapping("/blog-application")
 public class PostController {
     private PostService postService;
+    private CommentService commentService;
 
     @Autowired
-    public PostController(PostService postService) {
+    public PostController(PostService postService, CommentService commentService) {
         this.postService = postService;
+        this.commentService = commentService;
     }
 
     @GetMapping("/")
@@ -31,8 +35,10 @@ public class PostController {
     @GetMapping("/showpost")
     public String showPost(@RequestParam Long id, Model model) {
         Post post = postService.findById(id);
+        List<Comment> comments = commentService.findAll();
 
         model.addAttribute("post", post);
+        model.addAttribute("comments", comments);
 
         return "view-post";
     }
@@ -46,7 +52,7 @@ public class PostController {
         return "post-form";
     }
 
-    @GetMapping("editpost")
+    @GetMapping("/editpost")
     public String editPost(@RequestParam Long id, Model model) {
         Post post = postService.findById(id);
 
