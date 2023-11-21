@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>All Blogposts</title>
+</head>
+<body>
+<header>
+    <h1>My Blog Application</h1>
+</header>
+<main>
+    <a th:href="@{/blog-application/newpost}">New post</a>
+
+    <div th:each="post : ${posts}" class="posts-list">
+        <a th:href="@{/blog-application/showpost}">
+            <article class="post-container" style="border: 1px solid">
+                <h3 th:text="${post.title}" />
+                <p th:text="${post.author} + ', ' + ${post.createdAt.toLocalDate()}" />
+                <p th:text="${post.excerpt}" />
+            </article>
+        </a>
+    </div>
+</main>
+</body>
+</html>

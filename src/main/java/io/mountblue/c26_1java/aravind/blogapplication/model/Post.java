@@ -20,32 +20,6 @@ public class Post {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Post() {}
-
-    public Post(String title, String excerpt, String content, String author,
-                LocalDateTime publishedAt, boolean isPublished,
-                LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.title = title;
-        this.excerpt = excerpt;
-        this.content = content;
-        this.author = author;
-        this.publishedAt = publishedAt;
-        this.isPublished = isPublished;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    public Post(String title, String author, String content) {
-        this.title = title;
-        this.excerpt = title;
-        this.content = content;
-        this.author = author;
-        this.publishedAt = null;
-        this.isPublished = true;
-        this.createdAt = null;
-        this.updatedAt = null;
-    }
-
     public Long getId() {
         return id;
     }

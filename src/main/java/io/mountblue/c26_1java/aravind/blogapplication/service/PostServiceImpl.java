@@ -2,9 +2,11 @@ package io.mountblue.c26_1java.aravind.blogapplication.service;
 
 import io.mountblue.c26_1java.aravind.blogapplication.dao.PostRepository;
 import io.mountblue.c26_1java.aravind.blogapplication.model.Post;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +41,16 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public void save(Post theEmployee) {
-        postRepository.save(theEmployee);
+    public void save(Post post) {
+        LocalDateTime now = LocalDateTime.now();
+
+        post.setCreatedAt(now);
+        post.setUpdatedAt(now);
+        post.setPublishedAt(now);
+        post.setPublished(true);
+        post.setExcerpt(StringUtils.abbreviate(post.getTitle(), 255));
+
+        postRepository.save(post);
     }
 
     @Override
