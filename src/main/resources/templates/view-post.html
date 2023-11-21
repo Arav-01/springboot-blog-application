@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title th:text="${post.title}" />
+</head>
+<body>
+<header>
+  <h3>My Blog Application</h3>
+</header>
+<main>
+  <article>
+    <h1 th:text="${post.title}" />
+    <p th:text="${post.author} + ', ' + ${post.createdAt.toLocalDate()}" />
+    <p th:text="${post.content}" />
+  </article>
+</main>
+</body>
+</html>
