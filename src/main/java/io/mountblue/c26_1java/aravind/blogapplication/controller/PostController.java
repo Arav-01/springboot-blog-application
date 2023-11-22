@@ -35,7 +35,7 @@ public class PostController {
     @GetMapping("/showpost")
     public String showPost(@RequestParam Long id, Model model) {
         Post post = postService.findById(id);
-        List<Comment> comments = commentService.findAll();
+        List<Comment> comments = commentService.findAllByPostId(id);
 
         model.addAttribute("post", post);
         model.addAttribute("comments", comments);
