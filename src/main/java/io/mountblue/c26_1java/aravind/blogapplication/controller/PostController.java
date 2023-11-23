@@ -2,6 +2,7 @@ package io.mountblue.c26_1java.aravind.blogapplication.controller;
 
 import io.mountblue.c26_1java.aravind.blogapplication.model.Comment;
 import io.mountblue.c26_1java.aravind.blogapplication.model.Post;
+import io.mountblue.c26_1java.aravind.blogapplication.model.Tag;
 import io.mountblue.c26_1java.aravind.blogapplication.service.CommentService;
 import io.mountblue.c26_1java.aravind.blogapplication.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/blog-application")
@@ -30,6 +34,20 @@ public class PostController {
         model.addAttribute("posts", posts);
 
         return "posts-list";
+    }
+
+    @PostMapping("/savepost")
+    public String savePost(@ModelAttribute("post") Post post, @RequestParam("tags") String tags) {
+        List<Tag> tagList = Arrays.stream(tags.split(","))
+                                   .filter(tagName -> !tagName.isEmpty())
+                                   .map(tagName -> new Tag(tagName.trim()))
+                                   .collect(Collectors.toCollection(ArrayList::new));
+
+        post.setTags(tagList);
+
+        postService.save(post);
+
+        return "redirect:/blog-application/";
     }
 
     @GetMapping("/showpost")
@@ -59,13 +77,6 @@ public class PostController {
         model.addAttribute("post", post);
 
         return "post-form";
-    }
-
-    @PostMapping("/savepost")
-    public String savePost(@ModelAttribute("post") Post post) {
-        postService.save(post);
-
-        return "redirect:/blog-application/";
     }
 
     @GetMapping("/deletepost")

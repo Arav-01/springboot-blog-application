@@ -3,9 +3,10 @@ package io.mountblue.c26_1java.aravind.blogapplication.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Table(name = "Tags")
+@Table(name = "tags")
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,13 +14,16 @@ public class Tag {
     private String name;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "post_tags",
+               joinColumns = @JoinColumn(name = "tag_id"),
+               inverseJoinColumns = @JoinColumn(name = "post_id"))
+    private List<Post> posts;
 
     public Tag() {}
 
-    public Tag(String name, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Tag(String name) {
         this.name = name;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     public Long getId() {

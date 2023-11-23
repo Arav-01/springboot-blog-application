@@ -3,6 +3,7 @@ package io.mountblue.c26_1java.aravind.blogapplication.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "Posts")
@@ -19,6 +20,12 @@ public class Post {
     private boolean isPublished;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                                                   CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(name = "post_tags",
+               joinColumns = @JoinColumn(name = "post_id"),
+               inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags;
 
     public Long getId() {
         return id;
@@ -90,5 +97,19 @@ public class Post {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public String getTagsAsCommaSeparatedString() {
+        List<String> tagNameList = tags.stream().map(Tag::getName).toList();
+
+        return String.join(", ", tagNameList);
     }
 }
