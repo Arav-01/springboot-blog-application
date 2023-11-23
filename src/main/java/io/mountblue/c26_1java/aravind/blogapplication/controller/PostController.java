@@ -5,26 +5,27 @@ import io.mountblue.c26_1java.aravind.blogapplication.model.Post;
 import io.mountblue.c26_1java.aravind.blogapplication.model.Tag;
 import io.mountblue.c26_1java.aravind.blogapplication.service.CommentService;
 import io.mountblue.c26_1java.aravind.blogapplication.service.PostService;
+import io.mountblue.c26_1java.aravind.blogapplication.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/blog-application")
 public class PostController {
     private PostService postService;
     private CommentService commentService;
+    private TagService tagService;
 
     @Autowired
-    public PostController(PostService postService, CommentService commentService) {
+    public PostController(PostService postService, CommentService commentService, TagService tagService) {
         this.postService = postService;
         this.commentService = commentService;
+        this.tagService = tagService;
     }
 
     @GetMapping("/")
@@ -37,13 +38,9 @@ public class PostController {
     }
 
     @PostMapping("/savepost")
-    public String savePost(@ModelAttribute("post") Post post, @RequestParam("tags") String tags) {
-        List<Tag> tagList = Arrays.stream(tags.split(","))
-                                   .filter(tagName -> !tagName.isEmpty())
-                                   .map(tagName -> new Tag(tagName.trim()))
-                                   .collect(Collectors.toCollection(ArrayList::new));
-
-        post.setTags(tagList);
+    public String savePost(@ModelAttribute("post") Post post, @RequestParam("postTags") String tags) {
+        Set<Tag> tagSet = tagService.getTagSet(tags);
+        post.setTags(tagSet);
 
         postService.save(post);
 

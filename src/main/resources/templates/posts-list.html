@@ -16,8 +16,9 @@
         <a th:href="@{/blog-application/showpost(id=${post.id})}">
             <article class="post-container" style="border: 1px solid">
                 <h3 th:text="${post.title}" />
-                <p th:text="${post.author} + ', ' + ${post.createdAt.toLocalDate()}" />
+                <p th:text="${post.author} + ', ' + ${post.createdAt.toLocalDate}" />
                 <p th:text="${post.excerpt}" />
+                <span th:each="tag : ${post.tags}" th:text="${tag.name}" style="border: 1px solid"/>
             </article>
         </a>
     </div>

@@ -12,8 +12,8 @@
 <main>
   <article>
     <h1 th:text="${post.title}" />
-    <p th:text="${post.author} + ', ' + ${post.createdAt.toLocalDate()}" />
-    <span th:each="tag : ${post.tags}" th:text="${tag.getName()}" style="border: 1px solid"/>
+    <p th:text="${post.author} + ', ' + ${post.createdAt.toLocalDate}" />
+    <span th:each="tag : ${post.tags}" th:text="${tag.getName}" style="border: 1px solid"/>
     <p th:text="${post.content}" />
   </article>
 

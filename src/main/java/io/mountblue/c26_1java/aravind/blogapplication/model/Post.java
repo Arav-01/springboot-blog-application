@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Posts")
@@ -20,12 +22,13 @@ public class Post {
     private boolean isPublished;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-                                                   CascadeType.REFRESH, CascadeType.DETACH})
+    @ManyToMany(fetch = FetchType.LAZY,
+                cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                           CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(name = "post_tags",
                joinColumns = @JoinColumn(name = "post_id"),
                inverseJoinColumns = @JoinColumn(name = "tag_id"))
-    private List<Tag> tags;
+    private Set<Tag> tags;
 
     public Long getId() {
         return id;
@@ -99,15 +102,17 @@ public class Post {
         this.updatedAt = updatedAt;
     }
 
-    public List<Tag> getTags() {
+    public Set<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tag> tags) {
+    public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
 
     public String getTagsAsCommaSeparatedString() {
+        if (tags == null) return "";
+
         List<String> tagNameList = tags.stream().map(Tag::getName).toList();
 
         return String.join(", ", tagNameList);
