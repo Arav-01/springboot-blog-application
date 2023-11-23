@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,5 +31,11 @@ public class TagServiceImpl implements TagService{
 
     public Tag findByNameElseGetNew(String name) {
         return tagRepository.findByName(name).orElse(new Tag(name));
+    }
+
+    public void deleteOrphanedTags() {
+        List<Tag> orphanedTags = tagRepository.findOrphanedTags();
+
+        tagRepository.deleteAll(orphanedTags);
     }
 }

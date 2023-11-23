@@ -8,4 +8,6 @@ public interface TagService {
     Set<Tag> getTagSet(String tags);
 
     Tag findByNameElseGetNew(String name);
+
+    void deleteOrphanedTags();
 }

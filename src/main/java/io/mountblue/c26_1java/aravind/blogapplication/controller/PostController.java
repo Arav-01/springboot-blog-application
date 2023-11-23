@@ -79,6 +79,7 @@ public class PostController {
     @GetMapping("/deletepost")
     public String deletePost(@RequestParam Long id) {
         postService.deleteById(id);
+        tagService.deleteOrphanedTags();
 
         return "redirect:/blog-application/";
     }
