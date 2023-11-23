@@ -4,6 +4,9 @@ import io.mountblue.c26_1java.aravind.blogapplication.dao.PostRepository;
 import io.mountblue.c26_1java.aravind.blogapplication.model.Post;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -56,5 +59,12 @@ public class PostServiceImpl implements PostService{
     @Override
     public void deleteById(Long id) {
         postRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<Post> findPaginated(int start, int limit) {
+        Pageable pageable = PageRequest.of((start-1)/limit, limit);
+
+        return postRepository.findAll(pageable);
     }
 }

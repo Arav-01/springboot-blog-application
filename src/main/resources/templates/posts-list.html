@@ -23,5 +23,15 @@
         </a>
     </div>
 </main>
+<footer>
+    <a th:if="${currentPage > 1}"
+       th:href="@{'/blog-application/?start=' + ${(currentPage-2)*postsPerPage+1} + '&limit=' + ${postsPerPage}}">
+        Previous
+    </a>
+    <a th:if="${currentPage < totalPages}"
+       th:href="@{'/blog-application/?start=' + ${(currentPage)*postsPerPage+1} + '&limit=' + ${postsPerPage}}">
+        Next
+    </a>
+</footer>
 </body>
 </html>

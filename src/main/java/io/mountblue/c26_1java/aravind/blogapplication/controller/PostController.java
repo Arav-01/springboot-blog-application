@@ -7,6 +7,7 @@ import io.mountblue.c26_1java.aravind.blogapplication.service.CommentService;
 import io.mountblue.c26_1java.aravind.blogapplication.service.PostService;
 import io.mountblue.c26_1java.aravind.blogapplication.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,10 +30,15 @@ public class PostController {
     }
 
     @GetMapping("/")
-    public String listPosts(Model model) {
-        List<Post> posts = postService.findAll();
+    public String listPosts(@RequestParam(name = "start", defaultValue = "1") int start,
+                            @RequestParam(name = "limit", defaultValue = "10") int limit,
+                            Model model) {
+        Page<Post> page = postService.findPaginated(start, limit);
 
-        model.addAttribute("posts", posts);
+        model.addAttribute("currentPage", 1 + (start-1) / limit);
+        model.addAttribute("postsPerPage", limit);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("posts", page.getContent());
 
         return "posts-list";
     }

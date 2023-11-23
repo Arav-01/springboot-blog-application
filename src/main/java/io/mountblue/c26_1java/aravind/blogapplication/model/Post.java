@@ -3,7 +3,6 @@ package io.mountblue.c26_1java.aravind.blogapplication.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -113,8 +112,8 @@ public class Post {
     public String getTagsAsCommaSeparatedString() {
         if (tags == null) return "";
 
-        List<String> tagNameList = tags.stream().map(Tag::getName).toList();
-
-        return String.join(", ", tagNameList);
+        return tags.stream()
+                   .map(Tag::getName)
+                   .collect(Collectors.joining(", "));
     }
 }
