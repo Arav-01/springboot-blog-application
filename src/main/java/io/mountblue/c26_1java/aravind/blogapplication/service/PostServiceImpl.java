@@ -72,4 +72,19 @@ public class PostServiceImpl implements PostService{
 
         return postRepository.findAll(pageable);
     }
+
+    @Override
+    public Page<Post> findPaginatedAndSortedBySearch(String search, int start, int limit,
+                                                     String sortField, String sortOrder) {
+        Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+
+        Pageable pageable = PageRequest.of((start-1)/limit, limit, sort);
+
+        return postRepository
+                .findDistinctByTitleContainingOrContentContainingOrAuthorContainingOrTagsNameContaining(
+                        search, search, search, search, pageable
+                );
+    }
 }

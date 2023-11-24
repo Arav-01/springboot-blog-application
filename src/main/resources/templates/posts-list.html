@@ -40,7 +40,8 @@
        th:href="@{/blog-application/(start=${(currentPage-2)*postsPerPage+1},
                                      limit=${postsPerPage},
                                      sortField=${sortField},
-                                     order=${sortOrder}
+                                     order=${sortOrder},
+                                     search=${search}
                                     )}">
         Previous
     </a>
@@ -48,7 +49,8 @@
        th:href="@{/blog-application/(start=${(currentPage)*postsPerPage+1},
                                      limit=${postsPerPage},
                                      sortField=${sortField},
-                                     order=${sortOrder}
+                                     order=${sortOrder},
+                                     search=${search}
                                     )}">
         Next
     </a>
