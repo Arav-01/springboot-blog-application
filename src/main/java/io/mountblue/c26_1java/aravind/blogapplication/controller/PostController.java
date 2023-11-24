@@ -32,12 +32,18 @@ public class PostController {
     @GetMapping("/")
     public String listPosts(@RequestParam(name = "start", defaultValue = "1") int start,
                             @RequestParam(name = "limit", defaultValue = "10") int limit,
+                            @RequestParam(name = "sortField", defaultValue = "publishedAt") String sortField,
+                            @RequestParam(name = "order", defaultValue = "asc") String sortOrder,
                             Model model) {
-        Page<Post> page = postService.findPaginated(start, limit);
+        Page<Post> page = postService.findPaginatedAndSorted(start, limit, sortField, sortOrder);
 
         model.addAttribute("currentPage", 1 + (start-1) / limit);
         model.addAttribute("postsPerPage", limit);
         model.addAttribute("totalPages", page.getTotalPages());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortOrder", sortOrder);
+
         model.addAttribute("posts", page.getContent());
 
         return "posts-list";

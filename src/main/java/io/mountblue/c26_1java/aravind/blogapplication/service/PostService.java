@@ -14,5 +14,5 @@ public interface PostService {
 
     void deleteById(Long id);
 
-    Page<Post> findPaginated(int start, int limit);
+    Page<Post> findPaginatedAndSorted(int start, int limit, String sortField, String sortOrder);
 }

@@ -8,6 +8,18 @@
 <body>
 <header>
     <h1>My Blog Application</h1>
+    <form>
+        <input type="text" name="search" />
+        <button type="submit">Search</button>
+    </form>
+    <form>
+        <select name="order" required>
+            <option value="">-- Sort By --</option>
+            <option value="asc">Published - Oldest First</option>
+            <option value="desc">Published - Newest First</option>
+        </select>
+        <button type="submit">Sort</button>
+    </form>
 </header>
 <main>
     <a th:href="@{/blog-application/newpost}">New post</a>
@@ -16,20 +28,28 @@
         <a th:href="@{/blog-application/showpost(id=${post.id})}">
             <article class="post-container" style="border: 1px solid">
                 <h3 th:text="${post.title}" />
-                <p th:text="${post.author} + ', ' + ${post.createdAt.toLocalDate}" />
+                <p th:text="${post.author} + ', ' + ${post.createdAt}" />
                 <p th:text="${post.excerpt}" />
-                <span th:each="tag : ${post.tags}" th:text="${tag.name}" style="border: 1px solid"/>
+                <span th:each="tag : ${post.tags}" th:text="${tag.name}" style="border: 1px solid" />
             </article>
         </a>
     </div>
 </main>
 <footer>
     <a th:if="${currentPage > 1}"
-       th:href="@{'/blog-application/?start=' + ${(currentPage-2)*postsPerPage+1} + '&limit=' + ${postsPerPage}}">
+       th:href="@{/blog-application/(start=${(currentPage-2)*postsPerPage+1},
+                                     limit=${postsPerPage},
+                                     sortField=${sortField},
+                                     order=${sortOrder}
+                                    )}">
         Previous
     </a>
     <a th:if="${currentPage < totalPages}"
-       th:href="@{'/blog-application/?start=' + ${(currentPage)*postsPerPage+1} + '&limit=' + ${postsPerPage}}">
+       th:href="@{/blog-application/(start=${(currentPage)*postsPerPage+1},
+                                     limit=${postsPerPage},
+                                     sortField=${sortField},
+                                     order=${sortOrder}
+                                    )}">
         Next
     </a>
 </footer>
