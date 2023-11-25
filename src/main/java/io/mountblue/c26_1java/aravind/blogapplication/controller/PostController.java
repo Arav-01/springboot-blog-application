@@ -31,12 +31,18 @@ public class PostController {
 
     @GetMapping("/")
     public String listPosts(@RequestParam(name = "start", defaultValue = "1") int start,
-                            @RequestParam(name = "limit", defaultValue = "5") int limit,
+                            @RequestParam(name = "limit", defaultValue = "4") int limit,
                             @RequestParam(name = "sortField", defaultValue = "publishedAt") String sortField,
                             @RequestParam(name = "order", defaultValue = "asc") String sortOrder,
                             @RequestParam(name = "search", defaultValue = "") String search,
+                            @RequestParam(name = "authorName", required = false) List<String> authors,
+                            @RequestParam(name = "tagName", required = false) List<String> tags,
                             Model model) {
-        Page<Post> page = postService.findPaginatedAndSortedBySearch(search, start, limit, sortField, sortOrder);
+        if (authors != null && authors.isEmpty()) authors = null;
+        if (tags != null && tags.isEmpty()) tags = null;
+
+        Page<Post> page = postService.findPaginatedAndSortedBySearchAndFilter(
+                search, authors, tags, start, limit, sortField, sortOrder);
 
         model.addAttribute("currentPage", 1 + (start-1) / limit);
         model.addAttribute("postsPerPage", limit);
@@ -46,6 +52,11 @@ public class PostController {
         model.addAttribute("sortOrder", sortOrder);
 
         model.addAttribute("search", search);
+
+        model.addAttribute("authorName", authors);
+        model.addAttribute("allDistinctAuthors", postService.findDistinctAuthors());
+        model.addAttribute("tagName", tags);
+        model.addAttribute("allDistinctTags", tagService.findDistinctTags());
 
         model.addAttribute("posts", page.getContent());
 

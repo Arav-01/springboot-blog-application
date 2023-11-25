@@ -63,19 +63,16 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public Page<Post> findPaginatedAndSorted(int start, int limit, String sortField, String sortOrder) {
-        Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
-                        Sort.by(sortField).ascending() :
-                        Sort.by(sortField).descending();
-
-        Pageable pageable = PageRequest.of((start-1)/limit, limit, sort);
-
-        return postRepository.findAll(pageable);
+    public List<String> findDistinctAuthors() {
+        return postRepository.findDistinctAuthors();
     }
 
     @Override
-    public Page<Post> findPaginatedAndSortedBySearch(String search, int start, int limit,
-                                                     String sortField, String sortOrder) {
+    public Page<Post> findPaginatedAndSortedBySearchAndFilter(String search,
+                                                              List<String> authors,
+                                                              List<String> tags,
+                                                              int start, int limit,
+                                                              String sortField, String sortOrder) {
         Sort sort = sortOrder.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
                 Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
@@ -83,8 +80,8 @@ public class PostServiceImpl implements PostService{
         Pageable pageable = PageRequest.of((start-1)/limit, limit, sort);
 
         return postRepository
-                .findDistinctByTitleContainingOrContentContainingOrAuthorContainingOrTagsNameContaining(
-                        search, search, search, search, pageable
+                .findPaginatedAndSortedBySearchAndFilter(
+                        search, authors, tags, pageable
                 );
     }
 }

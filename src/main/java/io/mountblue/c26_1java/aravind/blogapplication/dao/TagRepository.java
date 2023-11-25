@@ -14,4 +14,7 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
 
     @Query("SELECT t FROM Tag t WHERE t.posts IS EMPTY")
     List<Tag> findOrphanedTags();
+
+    @Query("SELECT DISTINCT name FROM Tag ORDER BY name")
+    List<String> findDistinctTags();
 }

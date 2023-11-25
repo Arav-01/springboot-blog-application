@@ -29,13 +29,20 @@ public class TagServiceImpl implements TagService{
                      .collect(Collectors.toCollection(HashSet::new));
     }
 
+    @Override
     public Tag findByNameElseGetNew(String name) {
         return tagRepository.findByName(name).orElse(new Tag(name));
     }
 
+    @Override
     public void deleteOrphanedTags() {
         List<Tag> orphanedTags = tagRepository.findOrphanedTags();
 
         tagRepository.deleteAll(orphanedTags);
+    }
+
+    @Override
+    public List<String> findDistinctTags() {
+        return tagRepository.findDistinctTags();
     }
 }

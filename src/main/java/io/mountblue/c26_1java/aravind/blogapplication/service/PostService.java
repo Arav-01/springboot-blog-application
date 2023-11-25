@@ -14,7 +14,11 @@ public interface PostService {
 
     void deleteById(Long id);
 
-    Page<Post> findPaginatedAndSorted(int start, int limit, String sortField, String sortOrder);
+    List<String> findDistinctAuthors();
 
-    Page<Post> findPaginatedAndSortedBySearch(String search, int start, int limit, String sortField, String sortOrder);
+    Page<Post> findPaginatedAndSortedBySearchAndFilter(String search,
+                                                       List<String> authors,
+                                                       List<String> tags,
+                                                       int start, int limit,
+                                                       String sortField, String sortOrder);
 }
