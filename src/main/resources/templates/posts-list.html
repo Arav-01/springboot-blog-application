@@ -3,81 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/css/posts-list.css}" />
     <title>All Blogposts</title>
 </head>
 <body>
 <header>
     <h1>My Blog Application</h1>
-    <form>
-        <input type="text" name="search" th:value="${search}" required />
-        <input th:each="author : ${authorName}" type="hidden" name="authorName" th:value="${author}" />
-        <input th:each="tag : ${tagName}" type="hidden" name="tagName" th:value="${tag}" />
-        <button type="submit">Search</button>
-    </form>
-    <form>
-        <select name="order" required>
-            <option value="">-- Sort By --</option>
-            <option value="asc">Published - Oldest First</option>
-            <option value="desc">Published - Newest First</option>
-        </select>
-        <button type="submit">Sort</button>
-    </form>
-    <form>
-        <fieldset>
-            <label th:each="author : ${allDistinctAuthors}">
-                <input type="checkbox" name="authorName" th:value="${author}"
-                       th:checked="${authorName != null && authorName.indexOf(author) != -1}"/>
-                [[${author}]]
-            </label>
-        </fieldset>
-        <fieldset>
-            <label th:each="tag : ${allDistinctTags}">
-                <input type="checkbox" name="tagName" th:value="${tag}"
-                       th:checked="${tagName != null && tagName.indexOf(tag) != -1}"/>
-                [[${tag}]]
-            </label>
-        </fieldset>
-        <input type="hidden" name="search" th:value="${search}" />
-        <button type="submit">Filter</button>
-    </form>
+    <div id="search-filter-sort-container">
+        <form>
+            Search by Title, Content, Author or Tags:<br>
+            <input type="text" name="search" th:value="${search}" required />
+            <input th:each="author : ${authorName}" type="hidden" name="authorName" th:value="${author}" />
+            <input th:each="tag : ${tagName}" type="hidden" name="tagName" th:value="${tag}" />
+            <button type="submit">Search</button>
+        </form>
+        <hr>
+        <form>
+            Filter by Author or Tag
+            <fieldset>
+                <legend>Author</legend>
+                <label th:each="author : ${allDistinctAuthors}">
+                    <input type="checkbox" name="authorName" th:value="${author}"
+                           th:checked="${authorName != null && authorName.indexOf(author) != -1}"/>
+                    [[${author}]]
+                </label>
+            </fieldset>
+            <fieldset>
+                <legend>Tag</legend>
+                <label th:each="tag : ${allDistinctTags}">
+                    <input type="checkbox" name="tagName" th:value="${tag}"
+                           th:checked="${tagName != null && tagName.indexOf(tag) != -1}"/>
+                    [[${tag}]]
+                </label>
+            </fieldset>
+            <input type="hidden" name="search" th:value="${search}" />
+            <button type="submit">Apply Filter</button>
+        </form>
+        <hr>
+        <form>
+            Sort by Published Time:<br>
+            <select name="order" required>
+                <option value="">-- Sort By --</option>
+                <option value="asc">Published - Oldest First</option>
+                <option value="desc">Published - Newest First</option>
+            </select>
+            <button type="submit">Sort</button>
+        </form>
+    </div>
 </header>
+<hr><br>
 <main>
-    <a th:href="@{/blog-application/newpost}">New post</a>
-
-    <div th:each="post : ${posts}" class="posts-list">
-        <a th:href="@{/blog-application/showpost(id=${post.id})}">
-            <article class="post-container" style="border: 1px solid">
-                <h3 th:text="${post.title}" />
-                <p th:text="${post.author} + ', ' + ${post.createdAt}" />
+    <div class="posts-container">
+        <a th:each="post : ${posts}" class="post"
+           th:href="@{/blog-application/showpost(id=${post.id})}">
+            <article class="post-container">
+                <h2 th:text="${post.title}" />
+                <p th:text="${post.author} + ', ' + ${post.createdAt.toLocalDate()}" />
                 <p th:text="${post.excerpt}" />
-                <span th:each="tag : ${post.tags}" th:text="${tag.name}" style="border: 1px solid" />
+                <span th:each="tag : ${post.tags}" th:text="${tag.name}" class="tag-label"/>
             </article>
         </a>
     </div>
+    <div id="new-post-button-container">
+        <a id="new-post-button" th:href="@{/blog-application/newpost}">New post</a>
+    </div>
 </main>
 <footer>
-    <a th:if="${currentPage > 1}"
-       th:href="@{/blog-application/(start=${(currentPage-2)*postsPerPage+1},
-                                     limit=${postsPerPage},
-                                     sortField=${sortField},
-                                     order=${sortOrder},
-                                     search=${search},
-                                     authorName=${authorName},
-                                     tagName=${tagName}
-                                    )}">
-        Previous
-    </a>
-    <a th:if="${currentPage < totalPages}"
-       th:href="@{/blog-application/(start=${(currentPage)*postsPerPage+1},
-                                     limit=${postsPerPage},
-                                     sortField=${sortField},
-                                     order=${sortOrder},
-                                     search=${search},
-                                     authorName=${authorName},
-                                     tagName=${tagName}
-                                    )}">
-        Next
-    </a>
+    <div class="page-navigation">
+        <a th:if="${currentPage > 1}" id="prev-page"
+           th:href="@{/blog-application/(start=${(currentPage-2)*postsPerPage+1},
+                                         limit=${postsPerPage},
+                                         sortField=${sortField},
+                                         order=${sortOrder},
+                                         search=${search},
+                                         authorName=${authorName},
+                                         tagName=${tagName}
+                                        )}">
+            < Previous
+        </a>
+        <a th:if="${currentPage < totalPages}" id="next-page"
+           th:href="@{/blog-application/(start=${(currentPage)*postsPerPage+1},
+                                         limit=${postsPerPage},
+                                         sortField=${sortField},
+                                         order=${sortOrder},
+                                         search=${search},
+                                         authorName=${authorName},
+                                         tagName=${tagName}
+                                        )}">
+            Next >
+        </a>
+    </div>
 </footer>
 </body>
 </html>

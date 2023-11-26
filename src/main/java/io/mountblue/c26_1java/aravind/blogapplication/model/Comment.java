@@ -13,7 +13,6 @@ public class Comment {
     private String name;
     private String email;
     private String comment;
-    private Long postId;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -55,14 +54,6 @@ public class Comment {
 
     public void setComment(String comment) {
         this.comment = comment;
-    }
-
-    public Long getPostId() {
-        return postId;
-    }
-
-    public void setPostId(Long postId) {
-        this.postId = postId;
     }
 
     public LocalDateTime getCreatedAt() {

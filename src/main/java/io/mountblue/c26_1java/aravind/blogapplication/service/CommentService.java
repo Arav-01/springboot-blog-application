@@ -7,8 +7,6 @@ import java.util.List;
 public interface CommentService {
     List<Comment> findAll();
 
-    List<Comment> findAllByPostId(Long postId);
-
     Comment findById(Long id);
 
     void save(Comment comment);

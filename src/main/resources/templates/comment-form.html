@@ -7,17 +7,12 @@
 </head>
 <body>
 <main>
-    <form action="#" th:action="@{/blog-application/savecomment}" th:object="${commentObj}" method="POST">
+    <form action="#" th:action="@{/blog-application/updatecomment}" th:object="${commentObj}" method="POST">
         <input type="text" th:field="*{name}" placeholder="Name" />
-
         <input type="text" th:field="*{email}" placeholder="Email" />
-
         <textarea th:field="*{comment}" placeholder="Comment" />
-
-        <!-- Add hidden form field to handle DB updates -->
         <input type="hidden" th:field="*{id}" />
-        <input type="hidden" th:field="*{postId}" />
-
+        <input type="hidden" name="postId" th:value="${postId}" />
         <button type="submit">Comment</button>
     </form>
 </main>

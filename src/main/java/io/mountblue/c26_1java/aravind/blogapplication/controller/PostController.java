@@ -31,9 +31,9 @@ public class PostController {
 
     @GetMapping("/")
     public String listPosts(@RequestParam(name = "start", defaultValue = "1") int start,
-                            @RequestParam(name = "limit", defaultValue = "4") int limit,
+                            @RequestParam(name = "limit", defaultValue = "10") int limit,
                             @RequestParam(name = "sortField", defaultValue = "publishedAt") String sortField,
-                            @RequestParam(name = "order", defaultValue = "asc") String sortOrder,
+                            @RequestParam(name = "order", defaultValue = "desc") String sortOrder,
                             @RequestParam(name = "search", defaultValue = "") String search,
                             @RequestParam(name = "authorName", required = false) List<String> authors,
                             @RequestParam(name = "tagName", required = false) List<String> tags,
@@ -74,12 +74,12 @@ public class PostController {
     }
 
     @GetMapping("/showpost")
-    public String showPost(@RequestParam Long id, Model model) {
+    public String showPost(@RequestParam Long id, @RequestParam(required = false) Long commentId, Model model) {
         Post post = postService.findById(id);
-        List<Comment> comments = commentService.findAllByPostId(id);
+        Comment comment = commentId == null ? new Comment() : commentService.findById(commentId);
 
         model.addAttribute("post", post);
-        model.addAttribute("comments", comments);
+        model.addAttribute("commentObj", comment);
 
         return "view-post";
     }
