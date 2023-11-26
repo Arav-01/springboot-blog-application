@@ -16,12 +16,9 @@ public class Comment {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Comment() {}
-
-    public Comment(String name, String email, String comment) {
-        this.name = name;
-        this.email = email;
-        this.comment = comment;
+    public Comment() {
+        LocalDateTime now = LocalDateTime.now();
+        this.createdAt = this.updatedAt = now;
     }
 
     public Long getId() {

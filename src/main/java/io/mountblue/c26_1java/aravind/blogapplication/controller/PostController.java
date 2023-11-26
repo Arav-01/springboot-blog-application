@@ -81,7 +81,7 @@ public class PostController {
         model.addAttribute("post", post);
         model.addAttribute("commentObj", comment);
 
-        return "view-post";
+        return "post-full-view";
     }
 
     @GetMapping("/newpost")

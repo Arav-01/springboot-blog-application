@@ -3,31 +3,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/css/post-form.css}" />
     <title>Save Post</title>
 </head>
 <body>
 <main>
     <h1>New/Edit Post</h1>
-    <hr>
     <form action="#" th:action="@{/blog-application/savepost}" th:object="${post}" method="POST">
-
         <input type="text" th:field="*{title}" placeholder="Title">
-
         <input type="text" th:field="*{author}" placeholder="Author">
-
         <input type="text" placeholder="Tags" name="postTags" th:value="${post.getTagsAsCommaSeparatedString()}"/>
-
         <textarea type="text" th:field="*{content}" placeholder="Content" />
-
-        <!-- Add hidden form field to handle DB updates -->
         <input type="hidden" th:field="*{id}" />
-
         <button type="submit">Publish</button>
-
     </form>
-
-    <hr>
-    <a th:href="@{/blog-application/}">Back to Posts list</a>
 </main>
 </body>
 </html>

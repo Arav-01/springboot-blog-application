@@ -47,12 +47,16 @@
                 <option value="asc">Published - Oldest First</option>
                 <option value="desc">Published - Newest First</option>
             </select>
+            <input type="hidden" name="sortField" value="publishedAt" />
             <button type="submit">Sort</button>
         </form>
     </div>
 </header>
 <hr><br>
 <main>
+    <div id="new-post-button-container">
+        <a id="new-post-button" th:href="@{/blog-application/newpost}">New post</a>
+    </div>
     <div class="posts-container">
         <a th:each="post : ${posts}" class="post"
            th:href="@{/blog-application/showpost(id=${post.id})}">
@@ -63,9 +67,6 @@
                 <span th:each="tag : ${post.tags}" th:text="${tag.name}" class="tag-label"/>
             </article>
         </a>
-    </div>
-    <div id="new-post-button-container">
-        <a id="new-post-button" th:href="@{/blog-application/newpost}">New post</a>
     </div>
 </main>
 <footer>
