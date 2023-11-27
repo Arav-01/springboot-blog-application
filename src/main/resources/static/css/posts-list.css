@@ -15,6 +15,13 @@ label:hover {
     cursor: pointer;
 }
 
+#login-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: dodgerblue;
+}
+
 #search-filter-sort-container {
     border: 1px solid gray;
 }

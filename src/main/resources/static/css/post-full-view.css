@@ -3,7 +3,7 @@
 }
 
 body {
-    font-family: Arial, 'sans-serif'
+    font-family: Arial, 'sans-serif';
     margin: 0;
     padding: 0;
 }
@@ -11,6 +11,13 @@ body {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+#login-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: dodgerblue;
 }
 
 article {
