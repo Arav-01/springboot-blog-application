@@ -69,6 +69,7 @@ public class PostController {
         post.setTags(tagSet);
 
         postService.save(post);
+        tagService.deleteOrphanedTags();
 
         return "redirect:/blog-application/";
     }

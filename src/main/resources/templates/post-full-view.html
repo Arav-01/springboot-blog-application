@@ -10,6 +10,7 @@
 <header>
   <a th:href="@{/blog-application/}"><h2>My Blog Application</h2></a>
 </header>
+
 <main>
   <article>
     <h1 th:text="${post.title}" />
@@ -17,21 +18,25 @@
     <span th:each="tag : ${post.tags}" th:text="${tag.getName}" class="tag-label" />
     <p th:text="${post.content}" />
   </article>
+
   <div id="post-controls-container">
     <a class="edit-post" th:href="@{/blog-application/editpost(id=${post.id})}">Edit post</a>
     <a class="delete-post" th:href="@{/blog-application/deletepost(id=${post.id})}">Delete post</a>
   </div>
+
   <hr>
+
   <h4>Comments</h4>
   <form action="#" th:action="@{/blog-application/savecomment}" th:object="${commentObj}" method="POST"
         id="comment-form">
-    <input type="text" th:field="*{name}" placeholder="Name" />
-    <input type="text" th:field="*{email}" placeholder="Email" /><br>
-    <textarea th:field="*{comment}" placeholder="Comment" /><br>
+    <input type="text" th:field="*{name}" placeholder="Name" required/>
+    <input type="text" th:field="*{email}" placeholder="Email" required/><br>
+    <textarea th:field="*{comment}" placeholder="Comment" required/><br>
     <input type="hidden" th:field="*{id}" />
     <input type="hidden" name="postId" th:value="${post.id}" />
     <button type="submit">Add Comment</button>
   </form>
+
   <div th:each="comment : ${post.comments}" class="comments-list">
     <div class="comment-container">
       <h4 class="comment-name" th:text="${comment.name}" />

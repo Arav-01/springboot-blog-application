@@ -10,10 +10,11 @@
 <main>
     <h1>New/Edit Post</h1>
     <form action="#" th:action="@{/blog-application/savepost}" th:object="${post}" method="POST">
-        <input type="text" th:field="*{title}" placeholder="Title">
-        <input type="text" th:field="*{author}" placeholder="Author">
-        <input type="text" placeholder="Tags" name="postTags" th:value="${post.getTagsAsCommaSeparatedString()}"/>
-        <textarea type="text" th:field="*{content}" placeholder="Content" />
+        <input type="text" th:field="*{title}" placeholder="Title" required />
+        <input type="text" th:field="*{author}" placeholder="Author" required />
+        <input type="text" placeholder="Tags" name="postTags"
+               th:value="${post.getTagsAsCommaSeparatedString()}" />
+        <textarea type="text" th:field="*{content}" placeholder="Content" required/>
         <input type="hidden" th:field="*{id}" />
         <button type="submit">Publish</button>
     </form>
