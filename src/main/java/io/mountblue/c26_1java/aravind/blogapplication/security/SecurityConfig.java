@@ -24,29 +24,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsManager() {
-        UserDetails john = User.builder()
-                .username("john")
-                .password("{noop}0")
-                .roles("AUTHOR")
-                .build();
-
-        UserDetails mary = User.builder()
-                .username("mary")
-                .password("{noop}0")
-                .roles("AUTHOR")
-                .build();
-
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password("{noop}0")
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(john, mary, admin);
-    }
-
-    @Bean
     public DaoAuthenticationProvider authenticationProvider(UserService userService) {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
         auth.setUserDetailsService(userService);
@@ -60,7 +37,8 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests(configurer ->
                         configurer
-                                .requestMatchers("/blog-application/", "blog-application/showpost", "/css/**")
+                                .requestMatchers("/blog-application/", "/blog-application/showpost",
+                                        "/blog-application/register/**", "/css/**", "/error")
                                     .permitAll()
                                 .requestMatchers("/blog-application/newpost")
                                     .hasAnyRole("AUTHOR", "ADMIN")
@@ -75,6 +53,8 @@ public class SecurityConfig {
                         logout
                                 .logoutSuccessUrl("/blog-application/")
                                 .permitAll()
+                ).exceptionHandling(configurer ->
+                        configurer.accessDeniedPage("/access-denied")
                 );
 
         return httpSecurity.build();
