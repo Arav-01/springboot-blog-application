@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Registration Form</title>
+</head>
+<body>
+    <h1>Create account</h1>
+    <form action="#" th:action="@{/blog-application/register/processRegistration}" th:object="${newUser}" method="POST">
+        <div th:if="${registrationError}">
+            <p th:text="${registrationError}"></p>
+        </div>
+
+        <input type="text" th:field="*{name}" placeholder="Name" />
+        <span th:each="err : ${#fields.errors('name')}" th:text="'Name ' + ${err}" />
+
+        <input type="text" th:field="*{email}" placeholder="Email" />
+        <span th:each="err : ${#fields.errors('email')}" th:text="'Email ' + ${err}" />
+
+        <input type="text" th:field="*{password}" placeholder="Password" />
+        <span th:each="err : ${#fields.errors('password')}" th:text="'Password ' + ${err}" />
+
+        <input type="text" name="passwordRepeat" placeholder="Confirm Password" />
+
+        <button type="submit">Register</button>
+    </form>
+    <div>
+        <p>Have account? <a th:href="@{/blog-application/login}">Login</a></p>
+    </div>
+</body>
+</html>

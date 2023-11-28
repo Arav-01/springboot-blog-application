@@ -1,6 +1,8 @@
 package io.mountblue.c26_1java.aravind.blogapplication.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "\"User\"")
@@ -8,8 +10,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull(message = "is required")
+    @Size(min = 1, message = "is required")
     private String name;
+    @NotNull(message = "is required")
+    @Size(min = 1, message = "is required")
     private String email;
+    @NotNull(message = "is required")
+    @Size(min = 1, message = "is required")
     private String password;
 
     public User() {}

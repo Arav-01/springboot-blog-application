@@ -3,9 +3,11 @@ package io.mountblue.c26_1java.aravind.blogapplication.controller;
 import io.mountblue.c26_1java.aravind.blogapplication.model.Comment;
 import io.mountblue.c26_1java.aravind.blogapplication.model.Post;
 import io.mountblue.c26_1java.aravind.blogapplication.model.Tag;
+import io.mountblue.c26_1java.aravind.blogapplication.model.User;
 import io.mountblue.c26_1java.aravind.blogapplication.service.CommentService;
 import io.mountblue.c26_1java.aravind.blogapplication.service.PostService;
 import io.mountblue.c26_1java.aravind.blogapplication.service.TagService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -75,19 +77,23 @@ public class PostController {
     }
 
     @GetMapping("/showpost")
-    public String showPost(@RequestParam Long id, @RequestParam(required = false) Long commentId, Model model) {
+    public String showPost(@RequestParam Long id, Model model) {
         Post post = postService.findById(id);
-        Comment comment = commentId == null ? new Comment() : commentService.findById(commentId);
 
         model.addAttribute("post", post);
-        model.addAttribute("commentObj", comment);
+        model.addAttribute("commentObj", new Comment());
 
         return "post-full-view";
     }
 
     @GetMapping("/newpost")
-    public String createPost(Model model) {
+    public String createPost(HttpSession session, Model model) {
         Post post = new Post();
+
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            post.setAuthor(user.getName());
+        }
 
         model.addAttribute("post", post);
 

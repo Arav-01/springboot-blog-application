@@ -11,19 +11,20 @@
     </style>
 </head>
 <body>
-<h3>My Custom Login Page</h3>
-<form action="#" th:action="@{/blog-application/authenticateUser}"
-      method="POST">
-    <div th:if="${param.error}">
-        <i class="failed">Sorry! You entered invalid email/password.</i>
+    <h1>Login</h1>
+    <form action="#" th:action="@{/blog-application/authenticateUser}" method="POST">
+        <div th:if="${param.error}">
+            <i class="failed">Sorry! You entered invalid email/password.</i>
+        </div>
+
+        <input type="text" name="username" placeholder="Email" />
+
+        <input type="password" name="password" placeholder="Password" />
+
+        <input type="submit" value="Submit" />
+    </form>
+    <div>
+        <p>Doesn't have account? <a th:href="@{/blog-application/register}">Create one</a></p>
     </div>
-    <p>
-        User name: <input type="text" name="username" />
-    </p>
-    <p>
-        Password: <input type="password" name="password" />
-    </p>
-    <input type="submit" value="Login" />
-</form>
 </body>
 </html>

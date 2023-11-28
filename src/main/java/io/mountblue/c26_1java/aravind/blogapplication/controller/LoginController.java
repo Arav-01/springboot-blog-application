@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/blog-application")
-public class AuthenticationController {
+public class LoginController {
     @GetMapping("/login")
     public String login(HttpSession session) {
         return session.getAttribute("user") == null ? "login-form" : "redirect:/blog-application/";

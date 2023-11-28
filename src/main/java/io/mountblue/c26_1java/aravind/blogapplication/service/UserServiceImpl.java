@@ -5,6 +5,7 @@ import io.mountblue.c26_1java.aravind.blogapplication.model.User;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +13,18 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
+    private BCryptPasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    public void save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        userRepository.save(user);
     }
 
     public User findByEmail(String email) {
