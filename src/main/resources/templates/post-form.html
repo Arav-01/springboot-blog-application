@@ -14,8 +14,9 @@
         <input type="text" th:field="*{author}" placeholder="Author" required />
         <input type="text" placeholder="Tags" name="postTags"
                th:value="${post.getTagsAsCommaSeparatedString()}" />
-        <textarea type="text" th:field="*{content}" placeholder="Content" required/>
+        <textarea type="text" th:field="*{content}" placeholder="Content" required />
         <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{publishedAt}" />
         <button type="submit">Publish</button>
     </form>
 </main>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -8,7 +8,14 @@
 </head>
 <body>
 <header>
-    <a id="login-button" th:href="@{/blog-application/login}">Login</a>
+    <div id="authentication-details">
+        <p sec:authorize="isAuthenticated()"><span sec:authentication="principal.authorities" /></p>
+        <p sec:authorize="isAuthenticated()">Logged in as <strong sec:authentication="principal.username" /></p>
+        <form sec:authorize="isAuthenticated()" action="#" th:action="@{/logout}" method="POST">
+            <button id="logout-button" type="submit">Logout</button>
+        </form>
+        <a sec:authorize="${!isAuthenticated()}" id="login-button" th:href="@{/blog-application/login}">Login</a>
+    </div>
     <h1>My Blog Application</h1>
     <div id="search-filter-sort-container">
         <form>
@@ -63,7 +70,7 @@
            th:href="@{/blog-application/showpost(id=${post.id})}">
             <article class="post-container">
                 <h2 th:text="${post.title}" />
-                <p th:text="${post.author} + ', ' + ${post.createdAt.toLocalDate()}" />
+                <p th:text="${post.author} + ', ' + ${post.publishedAt.toLocalDate()}" />
                 <p th:text="${post.excerpt}" />
                 <span th:each="tag : ${post.tags}" th:text="${tag.name}" class="tag-label"/>
             </article>

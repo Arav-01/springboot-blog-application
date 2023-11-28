@@ -15,7 +15,7 @@
 <form action="#" th:action="@{/blog-application/authenticateUser}"
       method="POST">
     <div th:if="${param.error}">
-        <i class="failed">Sorry! You entered invalid username/password.</i>
+        <i class="failed">Sorry! You entered invalid email/password.</i>
     </div>
     <p>
         User name: <input type="text" name="username" />
