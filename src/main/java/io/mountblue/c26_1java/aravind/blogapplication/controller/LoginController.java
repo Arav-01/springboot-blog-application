@@ -3,13 +3,18 @@ package io.mountblue.c26_1java.aravind.blogapplication.controller;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/blog-application")
 public class LoginController {
-    @GetMapping("/login")
+    @GetMapping("/blog-application/login")
     public String login(HttpSession session) {
         return session.getAttribute("user") == null ? "login-form" : "redirect:/blog-application/";
+    }
+
+    @GetMapping("/access-denied")
+    public String accessDenied() {
+        return "access-denied";
     }
 }

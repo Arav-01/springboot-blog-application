@@ -33,7 +33,7 @@ public class CommentController {
         return "redirect:/blog-application/showpost?id=" + postId;
     }
 
-    @GetMapping("/editcomment")
+    @PostMapping("/editcomment")
     public String editComment(@RequestParam Long id, @RequestParam Long postId, Model model) {
         Comment comment = commentService.findById(id);
 
@@ -50,7 +50,7 @@ public class CommentController {
         return "redirect:/blog-application/showpost?id=" + postId;
     }
 
-    @GetMapping("/deletecomment")
+    @PostMapping("/deletecomment")
     public String deleteComment(@RequestParam Long id, @RequestParam Long postId) {
         commentService.deleteById(id);
 

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,7 +11,9 @@
     <h1>New/Edit Post</h1>
     <form action="#" th:action="@{/blog-application/savepost}" th:object="${post}" method="POST">
         <input type="text" th:field="*{title}" placeholder="Title" required />
-        <input type="text" th:field="*{author}" placeholder="Author" required />
+        <input type="text" th:field="*{author}" placeholder="Author" required
+               th:disabled="${#authorization.expression('hasRole(''AUTHOR'')')}" />
+        <input sec:authorize="hasRole('AUTHOR')" type="hidden" th:field="*{author}" />
         <input type="text" placeholder="Tags" name="postTags"
                th:value="${post.getTagsAsCommaSeparatedString()}" />
         <textarea type="text" th:field="*{content}" placeholder="Content" required />

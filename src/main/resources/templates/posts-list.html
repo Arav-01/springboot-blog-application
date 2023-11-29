@@ -10,13 +10,14 @@
 <header>
     <div id="authentication-details">
         <p sec:authorize="isAuthenticated()"><span sec:authentication="principal.authorities" /></p>
-        <p sec:authorize="isAuthenticated()">Logged in as <strong sec:authentication="principal.username" /></p>
+        <p sec:authorize="isAuthenticated()"><strong sec:authentication="principal.username" /></p>
         <form sec:authorize="isAuthenticated()" action="#" th:action="@{/logout}" method="POST">
             <button id="logout-button" type="submit">Logout</button>
         </form>
         <a sec:authorize="${!isAuthenticated()}" id="login-button" th:href="@{/blog-application/login}">Login</a>
     </div>
-    <h1>My Blog Application</h1>
+
+    <h1>My Blog Application</h1> Date
     <div id="search-filter-sort-container">
         <form>
             Search by Title, Content, Author or Tags:<br>
@@ -52,8 +53,8 @@
             Sort by Published Time:<br>
             <select name="order" required>
                 <option value="">-- Sort By --</option>
-                <option value="asc">Published - Oldest First</option>
-                <option value="desc">Published - Newest First</option>
+                <option value="asc">Published Date - Oldest First</option>
+                <option value="desc">Published Date - Newest First</option>
             </select>
             <input type="hidden" name="sortField" value="publishedAt" />
             <button type="submit">Sort</button>

@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     private UserService userService;
 
-    public CustomAuthenticationSuccessHandler(UserService theUserService) {
+    public LoginSuccessHandler(UserService theUserService) {
         userService = theUserService;
     }
 

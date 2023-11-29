@@ -8,8 +8,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import javax.sql.DataSource;
-
 @Configuration
 public class SecurityConfig {
     @Bean
@@ -26,22 +24,24 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity, CustomAuthenticationSuccessHandler loginHandler)
-            throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity,
+                                           LoginSuccessHandler loginSuccessHandler) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(configurer ->
                         configurer
-                                .requestMatchers("/blog-application/", "/blog-application/showpost",
-                                        "/blog-application/register/**", "/css/**", "/error")
-                                    .permitAll()
-                                .requestMatchers("/blog-application/newpost")
+                                .requestMatchers("/blog-application/newpost", "/blog-application/savepost",
+                                        "/blog-application/editpost", "/blog-application/deletepost")
                                     .hasAnyRole("AUTHOR", "ADMIN")
+                                .requestMatchers("/blog-application/", "/blog-application/showpost",
+                                        "/blog-application/savecomment", "/blog-application/register/**",
+                                        "/css/**", "/error")
+                                    .permitAll()
                                 .anyRequest().authenticated()
                 ).formLogin(form ->
                         form
                                 .loginPage("/blog-application/login")
                                 .loginProcessingUrl("/blog-application/authenticateUser")
-                                .successHandler(loginHandler)
+                                .successHandler(loginSuccessHandler)
                                 .permitAll()
                 ).logout(logout ->
                         logout

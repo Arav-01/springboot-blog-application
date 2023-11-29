@@ -2,6 +2,7 @@ package io.mountblue.c26_1java.aravind.blogapplication.service;
 
 import io.mountblue.c26_1java.aravind.blogapplication.dao.UserRepository;
 import io.mountblue.c26_1java.aravind.blogapplication.model.User;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,6 +30,12 @@ public class UserServiceImpl implements UserService {
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public boolean isAdmin(Authentication userAuthentication) {
+        return userAuthentication.getAuthorities()
+                                 .stream()
+                                 .anyMatch(role -> role.getAuthority().equals("ROLE_ADMIN"));
     }
 
     @Override

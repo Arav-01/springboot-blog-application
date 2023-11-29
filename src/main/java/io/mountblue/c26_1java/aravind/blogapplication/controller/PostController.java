@@ -7,9 +7,11 @@ import io.mountblue.c26_1java.aravind.blogapplication.model.User;
 import io.mountblue.c26_1java.aravind.blogapplication.service.CommentService;
 import io.mountblue.c26_1java.aravind.blogapplication.service.PostService;
 import io.mountblue.c26_1java.aravind.blogapplication.service.TagService;
+import io.mountblue.c26_1java.aravind.blogapplication.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,14 +23,14 @@ import java.util.Set;
 @RequestMapping("/blog-application")
 public class PostController {
     private PostService postService;
-    private CommentService commentService;
     private TagService tagService;
+    private UserService userService;
 
     @Autowired
-    public PostController(PostService postService, CommentService commentService, TagService tagService) {
+    public PostController(PostService postService, TagService tagService, UserService userService) {
         this.postService = postService;
-        this.commentService = commentService;
         this.tagService = tagService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
@@ -77,11 +79,23 @@ public class PostController {
     }
 
     @GetMapping("/showpost")
-    public String showPost(@RequestParam Long id, Model model) {
+    public String showPost(@RequestParam Long id, HttpSession session, Authentication auth, Model model) {
         Post post = postService.findById(id);
+        Comment comment = new Comment();
+        User user = (User) session.getAttribute("user");
+
+        boolean isAdmin = false, isPostAuthor = false;
+        if (user != null) {
+            isAdmin = userService.isAdmin(auth);
+            isPostAuthor = post.getAuthor().equals(user.getName());
+
+            comment.setName(user.getName());
+            comment.setEmail(user.getEmail());
+        }
 
         model.addAttribute("post", post);
-        model.addAttribute("commentObj", new Comment());
+        model.addAttribute("commentObj", comment);
+        model.addAttribute("canModifyPost", isPostAuthor || isAdmin);
 
         return "post-full-view";
     }
@@ -100,7 +114,7 @@ public class PostController {
         return "post-form";
     }
 
-    @GetMapping("/editpost")
+    @PostMapping("/editpost")
     public String editPost(@RequestParam Long id, Model model) {
         Post post = postService.findById(id);
 
@@ -109,7 +123,7 @@ public class PostController {
         return "post-form";
     }
 
-    @GetMapping("/deletepost")
+    @PostMapping("/deletepost")
     public String deletePost(@RequestParam Long id) {
         postService.deleteById(id);
         tagService.deleteOrphanedTags();
