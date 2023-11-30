@@ -4,7 +4,6 @@ import io.mountblue.c26_1java.aravind.blogapplication.model.Comment;
 import io.mountblue.c26_1java.aravind.blogapplication.model.Post;
 import io.mountblue.c26_1java.aravind.blogapplication.model.Tag;
 import io.mountblue.c26_1java.aravind.blogapplication.model.User;
-import io.mountblue.c26_1java.aravind.blogapplication.service.CommentService;
 import io.mountblue.c26_1java.aravind.blogapplication.service.PostService;
 import io.mountblue.c26_1java.aravind.blogapplication.service.TagService;
 import io.mountblue.c26_1java.aravind.blogapplication.service.UserService;
@@ -26,10 +25,17 @@ public class PostController {
     private TagService tagService;
     private UserService userService;
 
-    @Autowired
-    public PostController(PostService postService, TagService tagService, UserService userService) {
+    public PostController(PostService postService) {
         this.postService = postService;
+    }
+
+    @Autowired
+    public void setTagService(TagService tagService) {
         this.tagService = tagService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 

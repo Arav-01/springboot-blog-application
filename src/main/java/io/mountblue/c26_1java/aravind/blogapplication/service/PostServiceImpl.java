@@ -2,8 +2,8 @@ package io.mountblue.c26_1java.aravind.blogapplication.service;
 
 import io.mountblue.c26_1java.aravind.blogapplication.dao.PostRepository;
 import io.mountblue.c26_1java.aravind.blogapplication.model.Post;
+import io.mountblue.c26_1java.aravind.blogapplication.exception.ResourceNotFoundException;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,13 +12,11 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PostServiceImpl implements PostService{
     private PostRepository postRepository;
 
-    @Autowired
     public PostServiceImpl(PostRepository postRepository) {
         this.postRepository = postRepository;
     }
@@ -30,18 +28,7 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public Post findById(Long id) {
-        // return postRepository.findById(id).orElseThrow();
-
-        Optional<Post> schrodingerPost = postRepository.findById(id);
-
-        Post post = null;
-        if (schrodingerPost.isPresent()) {
-            post = schrodingerPost.get();
-        } else {
-            throw new RuntimeException("Did not find employee id - " + id);
-        }
-
-        return post;
+         return postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No post with id = " + id));
     }
 
     @Override

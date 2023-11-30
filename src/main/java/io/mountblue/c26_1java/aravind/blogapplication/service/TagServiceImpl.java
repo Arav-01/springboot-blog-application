@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 public class TagServiceImpl implements TagService{
     private TagRepository tagRepository;
 
-    @Autowired
     public TagServiceImpl(TagRepository tagRepository) {
         this.tagRepository = tagRepository;
     }

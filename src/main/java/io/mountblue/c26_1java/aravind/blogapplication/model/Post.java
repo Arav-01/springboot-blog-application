@@ -1,5 +1,6 @@
 package io.mountblue.c26_1java.aravind.blogapplication.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -129,6 +130,7 @@ public class Post {
         comments.add(comment);
     }
 
+    @JsonIgnore
     public String getTagsAsCommaSeparatedString() {
         if (tags == null) return "";
 
